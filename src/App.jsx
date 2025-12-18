@@ -18,6 +18,7 @@ import A_startup from './pages/A_startup';
 import MotdepasseEntreprise from './pages/MotdepasseEntreprise';
 import AccueilPublic from './pages/AccueilPublic';
 import Verification from './pages/Verification';
+import Notifications from './pages/Notifications';
 
 
 import { NotificationProvider } from './context/NotificationContext';
@@ -45,6 +46,7 @@ function App() {
         <Route path="/analyse/startup" element={<A_startup />} />
         <Route path="/motdepasse-entreprise" element={<MotdepasseEntreprise />} />
         <Route path="/verification" element={<Verification />} />
+        <Route path="/notifications" element={<Notifications />} />
         {/* Ajoutez d'autres routes ici si nécessaire */}
       </Routes>
     </NotificationProvider>

@@ -19,71 +19,71 @@ export default function AccueilPublic() {
   const navigate = useNavigate();
   const cardRefs = useRef({});
 
-const features = [
-  {
-    id: 'accueil',
-    icon: HomeModernIcon,
-    title: "Cockpit Ultra-Puissant",
-    desc: "Tableau de bord complet et alertes en temps réel.",
-    highlight: "Pilotez vos recrutements et restez toujours maître de la situation.",
-  },
-  {
-    id: 'candidatures',
-    icon: DocumentMagnifyingGlassIcon,
-    title: "Candidatures Automatisées",
-    desc: "Suivi rapide des candidatures et gestion collaborative fluide.",
-    highlight: "Trouvez et sécurisez les talents rares avant vos concurrents.",
-  },
-  {
-    id: 'startups',
-    icon: LightBulbIcon,
-    title: "Partenariats Startups",
-    desc: "Accès exclusif à +500 startups deeptech, greentech et IA prêtes à collaborer.",
-    highlight: "Injectez l’innovation directement dans vos équipes.",
-  },
-  {
-    id: 'offres',
-    icon: BriefcaseIcon,
-    title: "Offres d’Emploi",
-    desc: "Diffusez vos offres sur plusieurs canaux pour une visibilité maximale.",
-    highlight: "Attirez les top 1 % des profils en moins de 48 h.",
-  },
-  {
-    id: 'formation',
-    icon: AcademicCapIcon,
-    title: "Formations Internes & Externes",
-    desc: "Publiez vos programmes et recevez des milliers de candidatures qualifiées d’étudiants et jeunes diplômés.",
-    highlight: "Construisez dès aujourd’hui les leaders de demain.",
-  },
-  {
-    id: 'evenement',
-    icon: CalendarDaysIcon,
-    title: "Événements & Afterworks",
-    desc: "Salons privés, conférences, workshops, team buildings – tout en un clic.",
-    highlight: "Devenez l’entreprise où tous les talents veulent être vus.",
-  },
-  {
-    id: 'success-story',
-    icon: TrophyIcon,
-    title: "Success Stories Virales",
-    desc: "Mettez en lumière vos recrutements gagnants, promotions et projets phares.",
-    highlight: "Transformez chaque victoire en aimant à talents.",
-  },
-  {
-    id: 'analyse',
-    icon: ChartBarIcon,
-    title: "Pilotage & Analytics",
-    desc: "Visualisez vos données et analyses en graphiques : performances, canaux et suivi de vos actions.",
-    highlight: "Suivez et optimisez vos recrutements comme un leader.",
-  },
-  {
-    id: 'messagerie',
-    icon: ChatBubbleLeftRightIcon,
-    title: "Messagerie Intelligente",
-    desc: "Envoyez facilement des messages ciblés à vos candidats et contacts, avec suivi multi-canal et relances efficaces.",
-    highlight: "Communiquez et convertissez vos contacts rapidement.",
-  },
-];
+  const features = [
+    {
+      id: 'cockpit',
+      icon: HomeModernIcon,
+      title: "Cockpit Ultra-Puissant",
+      desc: "Tableau de bord complet et alertes en temps réel.",
+      highlight: "Pilotez vos recrutements et restez toujours maître de la situation.",
+    },
+    {
+      id: 'candidatures',
+      icon: DocumentMagnifyingGlassIcon,
+      title: "Candidatures Automatisées",
+      desc: "Suivi rapide des candidatures et gestion collaborative fluide.",
+      highlight: "Trouvez et sécurisez les talents rares avant vos concurrents.",
+    },
+    {
+      id: 'startups',
+      icon: LightBulbIcon,
+      title: "Partenariats Startups",
+      desc: "Accès exclusif à +500 startups deeptech, greentech et IA prêtes à collaborer.",
+      highlight: "Injectez l’innovation directement dans vos équipes.",
+    },
+    {
+      id: 'offres',
+      icon: BriefcaseIcon,
+      title: "Offres d’Emploi",
+      desc: "Diffusez vos offres sur plusieurs canaux pour une visibilité maximale.",
+      highlight: "Attirez les top 1 % des profils en moins de 48 h.",
+    },
+    {
+      id: 'formation',
+      icon: AcademicCapIcon,
+      title: "Formations Internes & Externes",
+      desc: "Publiez vos programmes et recevez des milliers de candidatures qualifiées d’étudiants et jeunes diplômés.",
+      highlight: "Construisez dès aujourd’hui les leaders de demain.",
+    },
+    {
+      id: 'evenement',
+      icon: CalendarDaysIcon,
+      title: "Événements & Afterworks",
+      desc: "Salons privés, conférences, workshops, team buildings – tout en un clic.",
+      highlight: "Devenez l’entreprise où tous les talents veulent être vus.",
+    },
+    {
+      id: 'success-story',
+      icon: TrophyIcon,
+      title: "Success Stories Virales",
+      desc: "Mettez en lumière vos recrutements gagnants, promotions et projets phares.",
+      highlight: "Transformez chaque victoire en aimant à talents.",
+    },
+    {
+      id: 'analyse',
+      icon: ChartBarIcon,
+      title: "Pilotage & Analytics",
+      desc: "Visualisez vos données et analyses en graphiques : performances, canaux et suivi de vos actions.",
+      highlight: "Suivez et optimisez vos recrutements comme un leader.",
+    },
+    {
+      id: 'messagerie',
+      icon: ChatBubbleLeftRightIcon,
+      title: "Messagerie Intelligente",
+      desc: "Envoyez facilement des messages ciblés à vos candidats et contacts, avec suivi multi-canal et relances efficaces.",
+      highlight: "Communiquez et convertissez vos contacts rapidement.",
+    },
+  ];
   // Scroll sur hash au chargement (ex: lien direct #candidatures)
   useEffect(() => {
     const hash = location.hash.replace('#', '');
@@ -98,20 +98,20 @@ const features = [
 
   // Action du bouton "Découvrir la plateforme" → scroll vers les cartes
   const scrollToFeatures = () => {
-    navigate('#accueil'); // change #accueil par une autre carte si tu veux
+    navigate('#cockpit');
   };
 
   return (
     <>
-      <div className="min-h-screen flex flex-col relative overflow-hidden bg-slate-50 text-slate-900">
-        <div className="fixed inset-0 -z-10 bg-white"></div>
+      <div className="min-h-screen flex flex-col relative overflow-hidden bg-green-50 text-slate-900">
+        <div className="fixed inset-0 -z-10 bg-green-50"></div>
 
         <Header />
 
-        <main className="flex-1 pt-20 lg:pt-24 relative z-10 bg-white">
+        <main className="flex-1 pt-14 lg:pt-20 relative z-10 bg-green-50">
 
           {/* HERO */}
-          <section className="px-6 lg:px-8 pt-10 pb-20 lg:pt-16 lg:pb-32">
+          <section className="px-6 lg:px-8 pt-0 pb-20 lg:pt-0 lg:pb-32">
             <div className="max-w-7xl mx-auto text-center">
 
               <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-blue-50 border border-blue-100 shadow-sm mb-8">
@@ -125,7 +125,7 @@ const features = [
               <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black leading-[1.05] text-slate-900 tracking-tight">
                 Recrutez l’excellence et
                 <br className="hidden lg:block" />
-                <span className="relative whitespace-nowrap">
+                <span className="relative whitespace-normal lg:whitespace-nowrap block lg:inline">
                   <span className="relative z-10 text-blue-600">propulsez vos talents</span>
                   <svg className="absolute -bottom-3 left-0 w-full h-4 text-blue-100 -z-10" viewBox="0 0 100 15" preserveAspectRatio="none">
                     <path d="M0 8 Q 50 15 100 8" stroke="currentColor" strokeWidth="12" fill="none" />
@@ -172,7 +172,7 @@ const features = [
           </section>
 
           {/* SECTION 9 CARTES */}
-          <section className="px-6 lg:px-8 py-24 bg-slate-50">
+          <section className="px-6 lg:px-8 py-24 bg-green-50">
             <div className="max-w-7xl mx-auto">
               <div className="text-center mb-20">
                 <h2 className="text-5xl md:text-6xl font-black mb-6 text-slate-900">
@@ -236,6 +236,21 @@ const features = [
           .highlight-glow {
             animation: highlight-glow 3s ease-out;
             border: 4px solid #3b82f6 !important;
+          }
+          @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+          }
+          .animate-blob {
+            animation: blob 7s infinite;
+          }
+          .animation-delay-2000 {
+            animation-delay: 2s;
+          }
+          .animation-delay-4000 {
+            animation-delay: 4s;
           }
         `}</style>
       </div>

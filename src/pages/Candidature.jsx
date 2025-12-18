@@ -3,11 +3,24 @@ import axios from 'axios';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { FaFileDownload, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import ConfirmationModal from '../components/ConfirmationModal';
 
 const Candidature = () => {
   const [postulations, setPostulations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Modal State
+  const [modalConfig, setModalConfig] = useState({
+    isOpen: false,
+    title: '',
+    message: '',
+    onConfirm: () => { },
+    type: 'warning',
+    confirmText: 'Confirmer'
+  });
 
   const entrepriseId = localStorage.getItem('entrepriseId');
 
@@ -39,52 +52,72 @@ const Candidature = () => {
     fetchPostulations();
   }, [entrepriseId]);
 
-  const handleHire = async (idPostulation) => {
-    if (!window.confirm("Confirmez-vous l'embauche de cet étudiant ?")) return;
-
-    try {
-      const response = await axios.put(
-        'http://localhost:3000/api/entreprise/embaucher',
-        { id_postulation: idPostulation, id_entreprise: entrepriseId }
-      );
-      if (response.data.status === 'success') {
-        setPostulations(
-          postulations.map((p) =>
-            p.id_postulation === idPostulation ? { ...p, statut_embauche: 'Embauché' } : p
-          )
-        );
-        alert('Étudiant embauché avec succès.');
-      } else {
-        setError(response.data.message);
-      }
-    } catch (err) {
-      setError("Erreur lors de l'embauche.");
-      console.error(err);
-    }
+  const openModal = (config) => {
+    setModalConfig({ ...config, isOpen: true, onCancel: () => setModalConfig(prev => ({ ...prev, isOpen: false })) });
   };
 
-  const handleNotHired = async (idPostulation) => {
-    if (!window.confirm("Confirmez-vous que cet étudiant n'est pas embauché ?")) return;
-
-    try {
-      const response = await axios.put(
-        'http://localhost:3000/api/entreprise/non_embaucher',
-        { id_postulation: idPostulation, id_entreprise: entrepriseId }
-      );
-      if (response.data.status === 'success') {
-        setPostulations(
-          postulations.map((p) =>
-            p.id_postulation === idPostulation ? { ...p, statut_embauche: 'Non embauché' } : p
-          )
-        );
-        alert('Statut mis à jour : Non embauché.');
-      } else {
-        setError(response.data.message);
+  const handleHire = (idPostulation) => {
+    openModal({
+      title: 'Confirmation de préselection',
+      message: 'Confirmez-vous la préselection de cet étudiant ?',
+      confirmText: 'Oui, présélectionner',
+      type: 'info',
+      onConfirm: async () => {
+        try {
+          const response = await axios.put(
+            'http://localhost:3000/api/entreprise/embaucher',
+            { id_postulation: idPostulation, id_entreprise: entrepriseId }
+          );
+          if (response.data.status === 'success') {
+            setPostulations(
+              postulations.map((p) =>
+                p.id_postulation === idPostulation ? { ...p, statut_embauche: 'Embauché' } : p
+              )
+            );
+            toast.success('Étudiant présélectionné avec succès.');
+          } else {
+            toast.error(response.data.message);
+          }
+        } catch (err) {
+          toast.error("Erreur lors de la préselection.");
+          console.error(err);
+        } finally {
+          setModalConfig(prev => ({ ...prev, isOpen: false }));
+        }
       }
-    } catch (err) {
-      setError("Erreur lors de la mise à jour du statut.");
-      console.error(err);
-    }
+    });
+  };
+
+  const handleNotHired = (idPostulation) => {
+    openModal({
+      title: 'Confirmation de refus',
+      message: 'Confirmez-vous le refus pour cet étudiant ?',
+      confirmText: 'Oui, refuser',
+      type: 'danger',
+      onConfirm: async () => {
+        try {
+          const response = await axios.put(
+            'http://localhost:3000/api/entreprise/non_embaucher',
+            { id_postulation: idPostulation, id_entreprise: entrepriseId }
+          );
+          if (response.data.status === 'success') {
+            setPostulations(
+              postulations.map((p) =>
+                p.id_postulation === idPostulation ? { ...p, statut_embauche: 'Non embauché' } : p
+              )
+            );
+            toast.info('Statut mis à jour : Refusé.');
+          } else {
+            toast.error(response.data.message);
+          }
+        } catch (err) {
+          toast.error("Erreur lors de la mise à jour du statut.");
+          console.error(err);
+        } finally {
+          setModalConfig(prev => ({ ...prev, isOpen: false }));
+        }
+      }
+    });
   };
 
   if (loading) {
@@ -163,15 +196,18 @@ const Candidature = () => {
                   <p>
                     <span className="font-medium">Statut d'embauche:</span>{' '}
                     <span
-                      className={`font-semibold ${
-                        postulation.statut_embauche === 'Embauché'
-                          ? 'text-green-600'
-                          : postulation.statut_embauche === 'Non embauché'
+                      className={`font-semibold ${postulation.statut_embauche === 'Embauché'
+                        ? 'text-green-600'
+                        : postulation.statut_embauche === 'Non embauché'
                           ? 'text-red-600'
                           : 'text-yellow-600'
-                      }`}
+                        }`}
                     >
-                      {postulation.statut_embauche}
+                      {postulation.statut_embauche === 'Embauché'
+                        ? 'Préselection'
+                        : postulation.statut_embauche === 'Non embauché'
+                          ? 'Refusé'
+                          : postulation.statut_embauche}
                     </span>
                   </p>
                   {postulation.statut_embauche === 'En attente' && (
@@ -180,13 +216,13 @@ const Candidature = () => {
                         onClick={() => handleHire(postulation.id_postulation)}
                         className="flex items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
                       >
-                        <FaCheckCircle className="mr-2" /> Embaucher
+                        <FaCheckCircle className="mr-2" /> Préselection
                       </button>
                       <button
                         onClick={() => handleNotHired(postulation.id_postulation)}
                         className="flex items-center bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
                       >
-                        <FaTimesCircle className="mr-2" /> Non embauché
+                        <FaTimesCircle className="mr-2" /> Refuser
                       </button>
                     </div>
                   )}
@@ -197,6 +233,16 @@ const Candidature = () => {
         )}
       </main>
       <Footer />
+      <ToastContainer position="bottom-right" />
+      <ConfirmationModal
+        isOpen={modalConfig.isOpen}
+        title={modalConfig.title}
+        message={modalConfig.message}
+        onConfirm={modalConfig.onConfirm}
+        onCancel={modalConfig.onCancel}
+        confirmText={modalConfig.confirmText}
+        type={modalConfig.type}
+      />
     </div>
   );
 };

@@ -82,10 +82,10 @@ Partagez vos réussites, inspirez la communauté et créez des synergies avec le
     };
 
     fetchStats();
-    
+
     // Rafraîchir les statistiques toutes les 5 minutes
     const interval = setInterval(fetchStats, 5 * 60 * 1000);
-    
+
     return () => clearInterval(interval);
   }, [entrepriseId]);
 
@@ -284,7 +284,7 @@ Partagez vos réussites, inspirez la communauté et créez des synergies avec le
             <FaRocket className="icon-orange text-5xl" />
             <h2 className="text-2xl font-bold text-gray-800">Publiez Vos Offres</h2>
             <p className="text-gray-600">Attirez les meilleurs talents en publiant vos offres d'emploi sur notre plateforme.</p>
-            <Link to="/offres" className="btn-gradient-orange px-6 py-3 inline-block">
+            <Link to="/publier/offre" className="btn-gradient-orange px-6 py-3 inline-block">
               Publier une Offre
             </Link>
           </div>
@@ -292,7 +292,7 @@ Partagez vos réussites, inspirez la communauté et créez des synergies avec le
             <FaUsers className="icon-teal text-5xl" />
             <h2 className="text-2xl font-bold text-gray-800">Gérez Vos Candidatures</h2>
             <p className="text-gray-600">Suivez et gérez facilement les candidatures reçues pour vos offres.</p>
-            <Link to="/candidatures" className="btn-gradient-teal px-6 py-3 inline-block">
+            <Link to="/candidature" className="btn-gradient-teal px-6 py-3 inline-block">
               Voir les Candidatures
             </Link>
           </div>
