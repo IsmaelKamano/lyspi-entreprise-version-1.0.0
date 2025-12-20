@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API, API_BASE_URL } from '../config/api';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { FaFileDownload, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
@@ -34,7 +35,7 @@ const Candidature = () => {
     const fetchPostulations = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('http://localhost:3000/api/entreprise/postulations', {
+        const response = await axios.get(`${API}/entreprise/postulations`, {
           params: { id_entreprise: entrepriseId },
         });
         if (response.data.status === 'success') {
@@ -65,7 +66,7 @@ const Candidature = () => {
       onConfirm: async () => {
         try {
           const response = await axios.put(
-            'http://localhost:3000/api/entreprise/embaucher',
+            `${API}/entreprise/embaucher`,
             { id_postulation: idPostulation, id_entreprise: entrepriseId }
           );
           if (response.data.status === 'success') {
@@ -97,7 +98,7 @@ const Candidature = () => {
       onConfirm: async () => {
         try {
           const response = await axios.put(
-            'http://localhost:3000/api/entreprise/non_embaucher',
+            `${API}/entreprise/non_embaucher`,
             { id_postulation: idPostulation, id_entreprise: entrepriseId }
           );
           if (response.data.status === 'success') {
@@ -171,7 +172,7 @@ const Candidature = () => {
                   <h3 className="text-lg font-semibold text-gray-800">Documents</h3>
                   <div className="flex space-x-4 mt-2">
                     <a
-                      href={`http://localhost:3000/${postulation.cv}`}
+                      href={`${API_BASE_URL}/${postulation.cv}`}
                       className="flex items-center text- blue-600 hover:text-blue-800 font-medium transition-colors"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -179,7 +180,7 @@ const Candidature = () => {
                       <FaFileDownload className="mr-2 text-lg" /> Télécharger CV
                     </a>
                     <a
-                      href={`http://localhost:3000/${postulation.lettre_motivation}`}
+                      href={`${API_BASE_URL}/${postulation.lettre_motivation}`}
                       className="flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors"
                       target="_blank"
                       rel="noopener noreferrer"

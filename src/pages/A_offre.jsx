@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import { API } from '../config/api';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import Header from '../components/Header';
@@ -59,10 +60,10 @@ const A_offre = () => {
       };
 
       if (filters.typeOffre === 'all') {
-        response = await axios.get('http://localhost:3000/api/statistique/postulation-stats-tout', { params });
+        response = await axios.get(`${API}/statistique/postulation-stats-tout`, { params });
       } else {
         params.typeOffre = filters.typeOffre;
-        response = await axios.get('http://localhost:3000/api/statistique/postulation-stats', { params });
+        response = await axios.get(`${API}/statistique/postulation-stats`, { params });
       }
 
       if (response.data.success) {
@@ -97,7 +98,7 @@ const A_offre = () => {
         ...(filters.statut !== 'Tous' && { statut: filters.statut }), // Include statut if not 'Tous'
       };
 
-      const response = await axios.get('http://localhost:3000/api/statistique/student-data', { params });
+      const response = await axios.get(`${API}/statistique/student-data`, { params });
 
       if (response.data.success) {
         setStudentData(response.data.data.students);
@@ -115,7 +116,7 @@ const A_offre = () => {
   const fetchTypeOffres = async () => {
     try {
       console.log('Récupération des données des types d\'offres');
-      const response = await axios.get('http://localhost:3000/api/statistique/type-offres', {
+      const response = await axios.get(`${API}/statistique/type-offres`, {
         params: { entrepriseId },
       });
       if (response.data.success) {
@@ -133,7 +134,7 @@ const A_offre = () => {
       console.log('Récupération des données des offres', { typeOffre: filters.typeOffre });
       const params = { entrepriseId };
       if (filters.typeOffre !== 'all') params.typeOffre = filters.typeOffre;
-      const response = await axios.get('http://localhost:3000/api/statistique/offres', { params });
+      const response = await axios.get(`${API}/statistique/offres`, { params });
       if (response.data.success) {
         setOffres(response.data.data);
         console.log('Offres récupérées', { count: response.data.data.length });

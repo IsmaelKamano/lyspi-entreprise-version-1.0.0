@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API } from '../config/api';
 import Header from '../components/Header';
 import { X, FileText, MapPin, Calendar, Tag, Mail, Upload, CheckCircle } from 'lucide-react';
 
@@ -32,7 +33,7 @@ const PublierFormation = () => {
     }
 
     // Fetch company formations
-    axios.get(`http://localhost:3000/api/entreprise/${entrepriseId}/publications`)
+    axios.get(`${API}/entreprise/${entrepriseId}/publications`)
       .then(response => {
         const companyFormations = response.data.data.filter(pub => pub.type === 'formation');
         setFormations(companyFormations);
@@ -41,7 +42,7 @@ const PublierFormation = () => {
         console.error('Erreur formations:', err);
         setError(err.response?.data?.message || 'Erreur lors de la récupération des formations');
       });
-axios.get(`http://localhost:3000/api/participations/count/${entrepriseId}`)
+axios.get(`${API}/participations/count/${entrepriseId}`)
     .then(response => {
       setTotalParticipations(response.data.data);
     })
@@ -108,12 +109,12 @@ axios.get(`http://localhost:3000/api/participations/count/${entrepriseId}`)
 
     try {
       console.log('Soumission formulaire:', Object.fromEntries(data));
-      const publishRes = await axios.post('http://localhost:3000/api/publier/formation', data, {
+      const publishRes = await axios.post(`${API}/publier/formation`, data, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       console.log('Publication formation OK:', publishRes.data);
       // Refresh formations
-      const response = await axios.get(`http://localhost:3000/api/entreprise/${entrepriseId}/publications`);
+      const response = await axios.get(`${API}/entreprise/${entrepriseId}/publications`);
       const companyFormations = response.data.data.filter(pub => pub.type === 'formation');
       setFormations(companyFormations);
       // Reset form

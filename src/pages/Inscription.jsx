@@ -19,7 +19,7 @@ export default function Inscription() {
   useEffect(() => {
     const loadCommunes = async () => {
       try {
-        const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+        const API_BASE = import.meta.env.VITE_API_URL || 'https://backend-entreprise.onrender.com/api';
         const res = await fetch(`${API_BASE}/reference/communes`);
         if (!res.ok) throw new Error('Impossible de charger les communes');
         const data = await res.json();
@@ -45,7 +45,7 @@ export default function Inscription() {
     setError('');
     setIsLoading(true);
     try {
-      const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+      const API_BASE = import.meta.env.VITE_API_URL || 'https://backend-entreprise.onrender.com/api';
       const formData = new FormData();
       formData.append('nom', entreprise);
       formData.append('email', email);

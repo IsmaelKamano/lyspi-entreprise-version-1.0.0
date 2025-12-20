@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API } from '../config/api';
 import { toast } from 'react-toastify';
 import Header from '../components/Header';
 
@@ -17,7 +18,7 @@ const StartupDetails = () => {
     const fetchStartupDetails = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`http://localhost:3000/api/startup/${id}`);
+        const response = await axios.get(`${API}/startup/${id}`);
         const { startup: startupData, etudiant: etudiantData } = response.data;
         if (!startupData || !etudiantData) {
           throw new Error('Données manquantes');

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API } from '../config/api';
 import Header from '../components/Header';
 import { X, Calendar, FileText, Image as ImageIcon, Upload, CheckCircle } from 'lucide-react';
 
@@ -30,7 +31,7 @@ const PublierEvenement = () => {
     }
 
     axios
-      .get(`http://localhost:3000/api/entreprise/${entrepriseId}/publications`)
+      .get(`${API}/entreprise/${entrepriseId}/publications`)
       .then((response) => {
         const companyEvents = response.data.data.filter((pub) => pub.type === 'evenement');
         setEvents(companyEvents);
@@ -95,10 +96,10 @@ const PublierEvenement = () => {
     data.append('id_entreprise', entrepriseId);
 
     try {
-      await axios.post('http://localhost:3000/api/publier/evenement', data, {
+      await axios.post(`${API}/publier/evenement`, data, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      const response = await axios.get(`http://localhost:3000/api/entreprise/${entrepriseId}/publications`);
+      const response = await axios.get(`${API}/entreprise/${entrepriseId}/publications`);
       const companyEvents = response.data.data.filter((pub) => pub.type === 'evenement');
       setEvents(companyEvents);
       setFormData({ titre: '', description: '', date_debut: '', date_fin: '', contact: '', lieu: '' });

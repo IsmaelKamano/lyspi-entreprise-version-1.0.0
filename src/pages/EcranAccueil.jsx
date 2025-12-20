@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { API } from '../config/api';
 import { useNavigate } from 'react-router-dom';
 
 export default function EcranAccueil() {
@@ -27,8 +28,8 @@ export default function EcranAccueil() {
     setError('');
 
     try {
-      const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
-      const response = await axios.post(`${API_BASE}/auth/login`, {
+      const API_BASE = import.meta.env.VITE_API_URL || 'https://backend-entreprise.onrender.com/api';
+      const response = await axios.post(`${API}/auth/login`, {
         email: user.trim(),
         mot_de_passe: password,
       });

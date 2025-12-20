@@ -4,7 +4,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Header from '../components/Header';
 
-const API_URL = 'http://localhost:3000/api';
+import { API } from '../config/api';
+const API_URL = API;
 const COMPANY_ID =  localStorage.getItem('entrepriseId'); // Replace with dynamic ID from auth or route
 
 const Profil = () => {
@@ -136,7 +137,7 @@ const Profil = () => {
           <div className="flex flex-col sm:flex-row items-center gap-6">
             {logo ? (
               <img
-               src={`http://localhost:3000${logo}`}
+               src={`${API.replace('/api', '')}${logo}`}
                 alt="Logo"
                 className="w-24 h-24 sm:w-32 sm:h-32 object-cover rounded-full border-2 border-gray-200"
               />

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import { API } from '../config/api';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import _ from 'lodash';
@@ -49,11 +50,11 @@ const A_startup = () => {
       setError(null);
       let response;
       if (filters.domaine === 'all') {
-        response = await axios.get('http://localhost:3000/api/statis_startup/startup-stats-tout', {
+        response = await axios.get(`${API}/statis_startup/startup-stats-tout`, {
           params: { entrepriseId, partenaire: filters.partenaire },
         });
       } else {
-        response = await axios.get('http://localhost:3000/api/statis_startup/startup-stats', {
+        response = await axios.get(`${API}/statis_startup/startup-stats`, {
           params: {
             domaine: filters.domaine || undefined,
             entrepriseId,
@@ -88,7 +89,7 @@ const A_startup = () => {
 
     try {
       let response;
-      response = await axios.get('http://localhost:3000/api/statis_startup/student-data', {
+      response = await axios.get(`${API}/statis_startup/student-data`, {
         params: {
           domaine: filters.domaine === 'all' ? undefined : filters.domaine,
           entrepriseId,
@@ -112,7 +113,7 @@ const A_startup = () => {
   const fetchDomains = async () => {
     try {
       console.log('Récupération des données des domaines');
-      const response = await axios.get('http://localhost:3000/api/statis_startup/startup-domains', {
+      const response = await axios.get(`${API}/statis_startup/startup-domains`, {
         params: { entrepriseId },
       });
       if (response.data.success) {
@@ -132,7 +133,7 @@ const A_startup = () => {
   const fetchStartups = async () => {
     try {
       console.log('Récupération des données des startups', { domaine: filters.domaine, partenaire: filters.partenaire });
-      const response = await axios.get('http://localhost:3000/api/statis_startup/startups', {
+      const response = await axios.get(`${API}/statis_startup/startups`, {
         params: { entrepriseId, domaine: filters.domaine || undefined, partenaire: filters.partenaire },
       });
       if (response.data.success) {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { API } from '../config/api';
 import {
   FaBriefcase,
   FaUsers,
@@ -54,10 +55,10 @@ Partagez vos réussites, inspirez la communauté et créez des synergies avec le
     const fetchStats = async () => {
       try {
         const [offresRes, embauchesRes, partenariatsRes, formationsRes] = await Promise.all([
-          axios.get(`http://localhost:3000/api/offres/count/${entrepriseId}`),
-          axios.get(`http://localhost:3000/api/candidats/embauches/count/${entrepriseId}`),
-          axios.get(`http://localhost:3000/api/partenariats/count/${entrepriseId}`),
-          axios.get(`http://localhost:3000/api/formations/count/${entrepriseId}`),
+          axios.get(`${API}/offres/count/${entrepriseId}`),
+          axios.get(`${API}/candidats/embauches/count/${entrepriseId}`),
+          axios.get(`${API}/partenariats/count/${entrepriseId}`),
+          axios.get(`${API}/formations/count/${entrepriseId}`),
         ]);
 
         setStats({

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import { API } from '../config/api';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import _ from 'lodash';
@@ -59,7 +60,7 @@ const A_formation = () => {
       setError(null);
       const params = cleanParams({ entrepriseId, ...filters });
       console.log('Envoi de la requête fetchStats avec paramètres', params);
-      const response = await axios.get('http://localhost:3000/api/stati_formation/formation-stats', { params });
+      const response = await axios.get(`${API}/stati_formation/formation-stats`, { params });
 
       if (response.data.success) {
         setStats(response.data.data.stats);
@@ -87,7 +88,7 @@ const A_formation = () => {
     try {
       const params = cleanParams({ entrepriseId, ...filters });
       console.log('Envoi de la requête fetchStudentData avec paramètres', params);
-      const response = await axios.get('http://localhost:3000/api/stati_formation/student-data', { params });
+      const response = await axios.get(`${API}/stati_formation/student-data`, { params });
 
       if (response.data.success) {
         setStudentData(response.data.data.students);
@@ -112,7 +113,7 @@ const A_formation = () => {
     try {
       const params = cleanParams({ entrepriseId });
       console.log('Envoi de la requête fetchFormations avec paramètres', params);
-      const response = await axios.get('http://localhost:3000/api/stati_formation/formations', { params });
+      const response = await axios.get(`${API}/stati_formation/formations`, { params });
       if (response.data.success) {
         setFormations(response.data.data);
       }

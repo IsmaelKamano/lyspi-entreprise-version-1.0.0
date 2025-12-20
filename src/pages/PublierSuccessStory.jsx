@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API } from '../config/api';
 import Header from '../components/Header';
 import { X, FileText, User, Tag, MapPin, Calendar, Camera, Film, CheckCircle } from 'lucide-react';
 
@@ -32,7 +33,7 @@ const PublierSuccessStory = () => {
     }
 
     axios
-      .get(`http://localhost:3000/api/entreprise/${entrepriseId}/publications`)
+      .get(`${API}/entreprise/${entrepriseId}/publications`)
       .then((response) => {
         const companyStories = response.data.data.filter((pub) => pub.type === 'success_story');
         setStories(companyStories);
@@ -118,11 +119,11 @@ const PublierSuccessStory = () => {
     data.append('id_entreprise', entrepriseId);
 
     try {
-      const publishRes = await axios.post('http://localhost:3000/api/publier/success-story', data, {
+      const publishRes = await axios.post(`${API}/publier/success-story`, data, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       console.log('Publication success story OK:', publishRes.data);
-      const response = await axios.get(`http://localhost:3000/api/entreprise/${entrepriseId}/publications`);
+      const response = await axios.get(`${API}/entreprise/${entrepriseId}/publications`);
       const companyStories = response.data.data.filter((pub) => pub.type === 'success_story');
       setStories(companyStories);
       setFormData({ name: '', specialty: '', description: '', date: '', lieu: '', impact: '', videoId: '' });

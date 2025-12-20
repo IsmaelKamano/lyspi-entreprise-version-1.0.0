@@ -11,7 +11,7 @@ const MotdepasseEntreprise = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   // Base d'API normalisée (sans slash final)
-  const RAW_API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+  const RAW_API_BASE = import.meta.env.VITE_API_URL || 'https://backend-entreprise.onrender.com/api';
   const API_BASE = (RAW_API_BASE || '').replace(/[“”]/g, '"').replace(/\/+$/, '');
   const endpoint = (path) => {
     // Retire guillemets typographiques et espaces parasites

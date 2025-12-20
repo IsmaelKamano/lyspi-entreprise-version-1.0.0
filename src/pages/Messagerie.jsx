@@ -2,9 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaArrowLeft, FaPaperPlane, FaFile } from 'react-icons/fa';
+import { API, API_BASE_URL } from '../config/api';
 
 // Configuration de l'URL de l'API
-const API_URL = 'http://localhost:3000/api';
+const API_URL = API;
 
 const MessagerieEntreprise = () => {
   const [entreprise, setEntreprise] = useState(null);
@@ -116,12 +117,12 @@ const MessagerieEntreprise = () => {
       const response = await axios.post(`${API_URL}/message/messages`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      setMessages([...messages, {
+        setMessages([...messages, {
         id_message: response.data.id_message,
         id_emetteur: entrepriseId,
         id_destinataire: entreprise?.id_admin,
         contenu: newMessage,
-        fichier: file ? `${API_URL}/${file.name}` : null,
+          fichier: file ? `${API_BASE_URL}/${file.name}` : null,
         date_envoi: new Date().toISOString(),
         type_emetteur: 'entreprise',
         type_destinataire: 'admin',
@@ -188,7 +189,7 @@ const MessagerieEntreprise = () => {
                 <div className="mt-3">
                   {message.fichier.match(/\.(jpeg|jpg|png|gif)$/i) ? (
                     <img
-                      src={`${API_URL}/${message.fichier}`}
+                      src={`${API_BASE_URL}/${message.fichier}`}
                       alt="Image jointe"
                       className="max-w-full h-auto rounded-lg shadow-sm"
                     />
@@ -196,7 +197,7 @@ const MessagerieEntreprise = () => {
                     <p className="text-sm text-gray-500">Fichier : {message.fichier.split('/').pop()}</p>
                   )}
                   <a
-                    href={`${API_URL}/${message.fichier}`}
+                    href={`${API_BASE_URL}/${message.fichier}`}
                     download
                     className={`text-sm underline ${
                       message.type_emetteur === 'entreprise' ? 'text-blue-200 hover:text-blue-100' : 'text-blue-500 hover:text-blue-600'

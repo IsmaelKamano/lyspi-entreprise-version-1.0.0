@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API } from '../config/api';
 import { toast } from 'react-toastify';
 import Header from '../components/Header';
 import { MagnifyingGlassIcon, FunnelIcon, XMarkIcon } from '@heroicons/react/24/outline';
@@ -25,7 +26,7 @@ const Startup = () => {
     const fetchStartups = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('http://localhost:3000/api/list/startups');
+        const response = await axios.get(`${API}/list/startups`);
         const data = response.data.data || response.data;
         if (!data || data.message === 'Aucune startup trouvée') {
           toast.info('Aucune startup trouvée', { theme: 'colored' });
@@ -44,7 +45,7 @@ const Startup = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `http://localhost:3000/api/entreprise/${entrepriseId}/partenariats-complets`
+          `${API}/entreprise/${entrepriseId}/partenariats-complets`
         );
         const startupIds = response.data.map((p) => p.startup_id);
         setPartenariats(startupIds);
@@ -63,7 +64,7 @@ const Startup = () => {
   const handlePartenariat = async (startupId) => {
     try {
       setLoading(true);
-      const partnershipResponse = await axios.post('http://localhost:3000/api/startup/partenaire', {
+          const partnershipResponse = await axios.post(`${API}/startup/partenaire`, {
         startup_id: startupId,
         entreprise_id: parseInt(entrepriseId),
       });

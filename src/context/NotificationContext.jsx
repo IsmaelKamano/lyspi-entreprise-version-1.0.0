@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import io from 'socket.io-client';
 import axios from 'axios';
+import { API, SOCKET } from '../config/api';
 import { toast } from 'react-toastify';
 
 const NotificationContext = createContext();
@@ -24,7 +25,7 @@ export const NotificationProvider = ({ children }) => {
 
         if (id) {
             setUserId(id);
-            const newSocket = io('http://localhost:3000'); // Backend URL
+            const newSocket = io(SOCKET); // Backend URL
             setSocket(newSocket);
 
             newSocket.emit('join', id);
@@ -47,7 +48,7 @@ export const NotificationProvider = ({ children }) => {
             const token = localStorage.getItem('token'); // Adjust based on auth
             if (!token) return;
 
-            const response = await axios.get('http://localhost:3000/api/notifications', {
+            const response = await axios.get(`${API}/notifications`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             if (response.data.status === 'success') {
@@ -62,7 +63,7 @@ export const NotificationProvider = ({ children }) => {
     const markAsRead = async (id) => {
         try {
             const token = localStorage.getItem('token');
-            await axios.put(`http://localhost:3000/api/notifications/${id}/read`, {}, {
+            await axios.put(`${API}/notifications/${id}/read`, {}, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setNotifications(notifications.map(n => n._id === id ? { ...n, read: true } : n));
@@ -83,7 +84,7 @@ export const NotificationProvider = ({ children }) => {
                 });
 
                 const token = localStorage.getItem('token');
-                await axios.post('http://localhost:3000/api/notifications/subscribe', subscription, {
+                await axios.post(`${API}/notifications/subscribe`, subscription, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 console.log('Push Subscribed');

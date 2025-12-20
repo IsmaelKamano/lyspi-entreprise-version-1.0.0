@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import { API } from '../config/api';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
@@ -51,7 +52,7 @@ const Analyse = () => {
       setLoading(true);
       setError(null);
       console.log('Récupération des statistiques avec paramètres', { poste: filters.poste, typeOffre: filters.typeOffre, entrepriseId });
-      const response = await axios.get('http://localhost:3000/api/statistique/postulation-stats', {
+      const response = await axios.get(`${API}/statistique/postulation-stats`, {
         params: {
           poste: filters.poste,
           typeOffre: filters.typeOffre || undefined, // Envoie undefined si vide pour éviter 'Tous'
@@ -89,7 +90,7 @@ const Analyse = () => {
         typeOffre: filters.typeOffre,
         entrepriseId,
       });
-      const response = await axios.get('http://localhost:3000/api/statistique/student-data', {
+      const response = await axios.get(`${API}/statistique/student-data`, {
         params: {
           poste: filters.poste,
           typeOffre: filters.typeOffre || undefined, // Envoie undefined si vide
@@ -113,7 +114,7 @@ const Analyse = () => {
   const fetchTypeOffres = async () => {
     try {
       console.log('Récupération des données des types d\'offres');
-      const response = await axios.get('http://localhost:3000/api/statistique/type-offres', {
+      const response = await axios.get(`${API}/statistique/type-offres`, {
         params: { entrepriseId },
       });
       if (response.data.success) {
@@ -134,7 +135,7 @@ const Analyse = () => {
   const fetchOffres = async () => {
     try {
       console.log('Récupération des données des offres', { typeOffre: filters.typeOffre });
-      const response = await axios.get('http://localhost:3000/api/statistique/offres', {
+      const response = await axios.get(`${API}/statistique/offres`, {
         params: { entrepriseId, typeOffre: filters.typeOffre || undefined },
       });
       if (response.data.success) {

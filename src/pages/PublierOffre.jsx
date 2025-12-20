@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API } from '../config/api';
 import Header from '../components/Header';
 import { X, FileText, Briefcase, Calendar, Tag, Mail, Upload, CheckCircle } from 'lucide-react';
 
@@ -34,7 +35,7 @@ const PublierOffre = () => {
   }
 
   // Fetch offer types
-  axios.get('http://localhost:3000/api/types-offres')
+  axios.get(`${API}/types-offres`)
     .then(response => {
       console.log('Types d\'offres chargés:', response.data.data);
       setTypesOffres(response.data.data);
@@ -45,7 +46,7 @@ const PublierOffre = () => {
     });
 
   // Fetch company offers
-  axios.get(`http://localhost:3000/api/entreprise/${entrepriseId}/publications`)
+  axios.get(`${API}/entreprise/${entrepriseId}/publications`)
     .then(response => {
       const companyOffers = response.data.data.filter(pub => pub.type === 'offre');
       setOffers(companyOffers);
@@ -56,7 +57,7 @@ const PublierOffre = () => {
     });
 
   // Fetch offers count by type
-  axios.get(`http://localhost:3000/api/offres/nbtype/${entrepriseId}`)
+  axios.get(`${API}/offres/nbtype/${entrepriseId}`)
     .then(response => setOffersByType(response.data.data))
     .catch(err => {
       console.error('Erreur nb offres par type:', err);
@@ -64,7 +65,7 @@ const PublierOffre = () => {
     });
 
   // Fetch total startups (corrected endpoint)
-  axios.get(`http://localhost:3000/api/offres/count/${entrepriseId}`)
+  axios.get(`${API}/offres/count/${entrepriseId}`)
     .then(response => {
       setTotalStartups(response.data.data);
     })
@@ -104,16 +105,16 @@ const PublierOffre = () => {
 
     try {
       console.log('Soumission formulaire:', Object.fromEntries(data));
-      const publishRes = await axios.post('http://localhost:3000/api/publier/offres', data, {
+      const publishRes = await axios.post(`${API}/publier/offres`, data, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       console.log('Publication offre OK:', publishRes.data);
       // Refresh offers
-      const response = await axios.get(`http://localhost:3000/api/entreprise/${entrepriseId}/publications`);
+      const response = await axios.get(`${API}/entreprise/${entrepriseId}/publications`);
       const companyOffers = response.data.data.filter(pub => pub.type === 'offre');
       setOffers(companyOffers);
       // Refresh offers by type
-      const typeResponse = await axios.get(`http://localhost:3000/api/offres/nbtype/${entrepriseId}`);
+      const typeResponse = await axios.get(`${API}/offres/nbtype/${entrepriseId}`);
       setOffersByType(typeResponse.data.data);
       // Reset form
       setFormData({
