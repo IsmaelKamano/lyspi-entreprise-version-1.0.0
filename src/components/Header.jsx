@@ -117,55 +117,89 @@ const Header = () => {
           </svg>
         </button>
 
-        {/* Mobile Menu - CORRIGÉ */}
+        {/* Mobile Menu - AMÉLIORÉ : Centré au milieu + Design premium */}
         {isMenuOpen && (
-          <div className="md:hidden absolute top-16 left-0 right-0 bg-white border-b border-gray-100 shadow-xl py-4 flex flex-col z-50">
-            {/* Tous les onglets principaux */}
-            {[
-              { path: '/accueil-entreprise', label: 'Accueil', id: 'cockpit', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
-              { path: '/candidature', label: 'Candidatures', id: 'candidatures', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2' },
-              { path: '/startup', label: 'Startups', id: 'startups', icon: 'M13 10V3L4 14h7v7l9-11h-7z' },
-              { path: '/messagerie', label: 'Messagerie', id: 'messagerie', icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
-              { path: '/publier/offre', label: 'Offres d’Emploi', id: 'offres', icon: 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
-              { path: '/publier/formation', label: 'Formations', id: 'formation', icon: 'M12 14l9-5-9-5-9 5-9 5 9 5z M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z' },
-              { path: '/publier/evenement', label: 'Événements', id: 'evenement', icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
-              { path: '/publier/success-story', label: 'Success Stories', id: 'success-story', icon: 'M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z' },
-              { path: '/analyse', label: 'Analyse', id: 'analyse', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2M9 19' },
-            ].map(link => (
-              <button
-                key={link.id}
-                onClick={(e) => handleSmartNav(e, link.path, link.id)}
-                className="w-full px-6 py-3 flex items-center gap-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 font-medium transition-colors border-l-4 border-transparent hover:border-blue-600 text-left"
-              >
-                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={link.icon} />
-                </svg>
-                {link.label}
-              </button>
-            ))}
-
-            <div className="h-px bg-gray-100 my-2 mx-4"></div>
-
-            <Link
-              to="/apropos"
-              onClick={() => setIsMenuOpen(false)}
-              className="px-6 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 font-medium transition-colors border-l-4 border-transparent hover:border-blue-600"
+          <div 
+            className="md:hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) setIsMenuOpen(false);
+            }}
+          >
+            <div 
+              ref={menuRef}
+              className="bg-blue-900 w-[90%] max-w-md rounded-3xl shadow-2xl border border-blue-800/60 p-6 relative overflow-hidden"
             >
-              À propos
-            </Link>
-
-            {isAuthed && (
-              <button
-                onClick={handleLogout}
-                className="text-left w-full px-6 py-3 text-red-600 hover:bg-red-50 font-medium transition-colors border-l-4 border-transparent hover:border-red-600"
+              {/* Bouton fermer */}
+              <button 
+                onClick={toggleMenu}
+                className="absolute top-4 right-4 text-white/80 hover:text-white transition-colors"
               >
-                Se déconnecter
+                <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
               </button>
-            )}
+
+              {/* Logo centré */}
+              <div className="text-center mb-8">
+                <div className="relative inline-block">
+                  <img src="/images/premiere.jpg" alt="LYSPI Logo" className="h-16 w-16 rounded-full ring-4 ring-blue-400/30 mx-auto" />
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-blue-400/30 to-emerald-500/30 blur-xl opacity-50"></div>
+                </div>
+                <h3 className="text-2xl font-extrabold text-white mt-3">LYSPI</h3>
+              </div>
+
+              {/* Onglets en grille 2 colonnes, parfaitement centrés */}
+                  <div className="grid grid-cols-2 gap-4">
+                {[
+                  { path: '/accueil-entreprise', label: 'Accueil', id: 'cockpit', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
+                  { path: '/candidature', label: 'Candidatures', id: 'candidatures', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2' },
+                  { path: '/startup', label: 'Startups', id: 'startups', icon: 'M13 10V3L4 14h7v7l9-11h-7z' },
+                  { path: '/messagerie', label: 'Messagerie', id: 'messagerie', icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
+                  { path: '/publier/offre', label: 'Offres d’Emploi', id: 'offres', icon: 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
+                  { path: '/publier/formation', label: 'Formations', id: 'formation', icon: 'M12 14l9-5-9-5-9 5-9 5 9 5z M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z' },
+                  { path: '/publier/evenement', label: 'Événements', id: 'evenement', icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
+                  { path: '/publier/success-story', label: 'Success Stories', id: 'success-story', icon: 'M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z' },
+                  { path: '/analyse', label: 'Analyse', id: 'analyse', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2M9 19' },
+                ].map(link => (
+                  <button
+                      key={link.id}
+                      onClick={(e) => handleSmartNav(e, link.path, link.id)}
+                      className="flex flex-col items-center justify-center p-5 bg-blue-800/90 rounded-2xl hover:bg-blue-700/95 transition-all duration-300 group"
+                    >
+                      <svg className="w-8 h-8 mb-3 text-white group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={link.icon} />
+                    </svg>
+                      <span className="text-sm font-medium text-white text-center">{link.label}</span>
+                  </button>
+                ))}
+              </div>
+
+              {/* Séparateur */}
+              <div className="h-px bg-blue-700/50 my-6"></div>
+
+              {/* À propos */}
+              <Link
+                to="/apropos"
+                onClick={() => setIsMenuOpen(false)}
+                className="block text-center py-3 text-white/90 hover:text-white font-medium transition-colors"
+              >
+                À propos
+              </Link>
+
+              {/* Déconnexion si connecté */}
+              {isAuthed && (
+                <button
+                  onClick={handleLogout}
+                  className="block w-full mt-4 py-3 bg-red-600/80 hover:bg-red-700 rounded-2xl text-white font-medium transition-colors"
+                >
+                  Se déconnecter
+                </button>
+              )}
+            </div>
           </div>
         )}
 
-        {/* Desktop Navigation - INCHANGÉ (tout le reste comme avant) */}
+        {/* Desktop Navigation - INCHANGÉ (tout le reste reste exactement comme avant) */}
         <div className="hidden md:flex items-center space-x-8">
           <ul className="flex items-center space-x-8">
 
@@ -293,8 +327,6 @@ const Header = () => {
           </ul>
 
           {/* Notification Bell + Profil + Menu Desktop */}
-          {/* (Tout reste exactement comme dans ton code original) */}
-          {/* Notification & Profil */}
           <div className="flex items-center space-x-4 pl-6 border-l border-white/10 ml-4">
 
             {/* Notifications */}
@@ -304,9 +336,6 @@ const Header = () => {
                 className="relative p-2 rounded-full hover:bg-white/10 text-white/90 hover:text-white transition-colors"
               >
                 <div className="absolute top-1.5 right-1.5 h-2.5 w-2.5 bg-red-500 rounded-full border-2 border-blue-900"></div>
-                {/* Badge Count if needed: 
-                  {unreadCount > 0 && <span className="absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-bold leading-none text-red-100 transform translate-x-1/4 -translate-y-1/4 bg-red-600 rounded-full">{unreadCount}</span>} 
-                  */}
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                 </svg>

@@ -188,15 +188,7 @@ export default function EcranAccueil() {
             )}
           </button>
 
-          <button
-            type="button"
-            onClick={handleAnnuler}
-            disabled={isLoading}
-            className="w-full mt-4 text-gray-600 hover:text-gray-900 text-sm font-medium transition duration-200 disabled:text-gray-400 disabled:cursor-not-allowed"
-            aria-label="Annuler"
-          >
-            Annuler
-          </button>
+          {/* Bouton 'Annuler' supprimé : inutile sur la page de connexion */}
 
           <div className="mt-6 text-center">
             <a 

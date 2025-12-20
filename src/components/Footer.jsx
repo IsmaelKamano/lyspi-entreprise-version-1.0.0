@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-br from-blue-950 via-blue-900 to-blue-800 text-white py-10 sm:py-14 shadow-inner">
+    <footer className="bg-blue-900 text-white py-10 sm:py-14 shadow-inner">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* ==== SECTIONS GRID ==== */}
@@ -14,7 +14,7 @@ const Footer = () => {
             <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight flex items-center drop-shadow-lg">
               <span className="mr-2 text-3xl">📌</span> LYSPI
             </h3>
-            <p className="text-blue-200/90 text-sm sm:text-base leading-relaxed">
+            <p className="text-white/85 text-sm sm:text-base leading-relaxed">
               LYSPI est une plateforme numérique nationale développée par KJS.Group, dédiée à
               l'accompagnement professionnel des étudiants, jeunes diplômés et talents à travers la Guinée.
               Accédez à des offres d'emploi, stages, formations, événements, success stories et au réseau des startups.
@@ -40,7 +40,7 @@ const Footer = () => {
                 <li key={idx}>
                   <Link
                     to={item.to}
-                    className="text-blue-200 hover:text-white hover:translate-x-1 transition-all duration-300 ease-in-out inline-block"
+                    className="text-white/90 hover:text-white hover:translate-x-1 transition-all duration-300 ease-in-out inline-block"
                   >
                     {item.label}
                   </Link>
@@ -54,7 +54,7 @@ const Footer = () => {
             <h3 className="text-xl font-semibold mb-4 flex items-center tracking-wide">
               <span className="mr-2 text-2xl">🎯</span> Objectifs
             </h3>
-            <ul className="space-y-3 text-sm sm:text-base text-blue-200">
+            <ul className="space-y-3 text-sm sm:text-base text-white/85">
               <li>Centraliser toutes les opportunités professionnelles en Guinée</li>
               <li>Connecter talents, étudiants et entreprises sur un espace unique</li>
               <li>Valoriser les projets innovants et initiatives des startups</li>
@@ -69,7 +69,7 @@ const Footer = () => {
             <h3 className="text-xl font-semibold mb-4 tracking-wide">
               Contact
             </h3>
-            <ul className="space-y-3 text-sm sm:text-base text-blue-200">
+            <ul className="space-y-3 text-sm sm:text-base text-white/85">
               <li>
                 Email :{" "}
                 <a
@@ -97,8 +97,8 @@ const Footer = () => {
         </div>
 
         {/* ==== COPYRIGHT ==== */}
-        <div className="mt-10 border-t border-blue-700/50 pt-4 text-center">
-          <p className="text-blue-300 text-xs sm:text-sm tracking-wider">
+          <div className="mt-10 border-t border-blue-700/50 pt-4 text-center">
+          <p className="text-white/70 text-xs sm:text-sm tracking-wider">
             © 2025 KJS.GROUP – Tous droits réservés.
           </p>
         </div>
