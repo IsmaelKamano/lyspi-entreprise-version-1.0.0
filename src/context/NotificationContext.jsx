@@ -18,29 +18,56 @@ export const NotificationProvider = ({ children }) => {
 
     // Initialize Socket and Fetch Notifications
     useEffect(() => {
-        // Get user ID from localStorage or AuthContext
-        const storedUser = localStorage.getItem('user'); // Adjust based on your auth storage
-        const user = storedUser ? JSON.parse(storedUser) : null;
-        const id = user?.id || localStorage.getItem('entrepriseId'); // Fallback
+            // Helper to create socket when we have an id
+            const createSocketForId = (id) => {
+                setUserId(id);
+                const newSocket = io(SOCKET);
+                setSocket(newSocket);
 
-        if (id) {
-            setUserId(id);
-            const newSocket = io(SOCKET); // Backend URL
-            setSocket(newSocket);
+                newSocket.on('connect', () => {
+                    console.log('Socket connected', newSocket.id);
+                    newSocket.emit('join', id);
+                });
 
-            newSocket.emit('join', id);
+                newSocket.on('notification', (notification) => {
+                    setNotifications((prev) => [notification, ...prev]);
+                    setUnreadCount((prev) => prev + 1);
+                    toast.info(notification.message);
+                });
 
-            newSocket.on('notification', (notification) => {
-                setNotifications((prev) => [notification, ...prev]);
-                setUnreadCount((prev) => prev + 1);
-                toast.info(notification.message);
-            });
+                // Fetch initial notifications
+                fetchNotifications();
 
-            // Fetch initial notifications
-            fetchNotifications();
+                return () => newSocket.close();
+            };
 
-            return () => newSocket.close();
-        }
+            // Try to read id from localStorage immediately
+            const storedUser = localStorage.getItem('user');
+            const user = storedUser ? JSON.parse(storedUser) : null;
+            const immediateId = user?.id || localStorage.getItem('entrepriseId');
+
+            if (immediateId) {
+                const cleanup = createSocketForId(immediateId);
+                return cleanup;
+            }
+
+            // If no id yet (user just logged in), poll localStorage briefly to detect login
+            let checks = 0;
+            const maxChecks = 20; // ~10 seconds
+            const interval = setInterval(() => {
+                checks += 1;
+                const su = localStorage.getItem('user');
+                const u = su ? JSON.parse(su) : null;
+                const id = u?.id || localStorage.getItem('entrepriseId');
+                if (id) {
+                    clearInterval(interval);
+                    createSocketForId(id);
+                } else if (checks >= maxChecks) {
+                    clearInterval(interval);
+                }
+            }, 500);
+
+            return () => clearInterval(interval);
     }, []);
 
     const fetchNotifications = async () => {
