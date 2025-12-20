@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { API } from '../config/api';
 
 export default function Inscription() {
   const navigate = useNavigate();
@@ -19,8 +20,7 @@ export default function Inscription() {
   useEffect(() => {
     const loadCommunes = async () => {
       try {
-        const API_BASE = import.meta.env.VITE_API_URL || 'https://backend-entreprise.onrender.com/api';
-        const res = await fetch(`${API_BASE}/reference/communes`);
+        const res = await fetch(`${API}/reference/communes`);
         if (!res.ok) throw new Error('Impossible de charger les communes');
         const data = await res.json();
         setCommunes(Array.isArray(data.data) ? data.data : []);
@@ -45,7 +45,8 @@ export default function Inscription() {
     setError('');
     setIsLoading(true);
     try {
-      const API_BASE = import.meta.env.VITE_API_URL || 'https://backend-entreprise.onrender.com/api';
+      // use centralized API base
+      const API_BASE = API;
       const formData = new FormData();
       formData.append('nom', entreprise);
       formData.append('email', email);
