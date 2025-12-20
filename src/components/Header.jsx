@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import logoSrc from '../../images/premiere.jpg';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useNotification } from '../context/NotificationContext';
 
@@ -97,7 +98,7 @@ const Header = () => {
         {/* Logo */}
         <div className="flex items-center space-x-3">
           <div className="relative group">
-            <img src="/images/premiere.jpg" alt="LYSPI Logo" className="h-10 w-10 object-cover rounded-full ring-2 ring-white/20 transition-all duration-300 group-hover:ring-blue-400 group-hover:scale-110" />
+            <img src={logoSrc} alt="LYSPI Logo" className="h-10 w-10 object-cover rounded-full ring-2 ring-white/20 transition-all duration-300 group-hover:ring-blue-400 group-hover:scale-110" />
             <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-blue-400 to-emerald-500 opacity-0 group-hover:opacity-30 transition-opacity duration-300 blur-xl"></div>
           </div>
           <Link
@@ -142,7 +143,7 @@ const Header = () => {
               {/* Logo centré */}
               <div className="text-center mb-8">
                 <div className="relative inline-block">
-                  <img src="/images/premiere.jpg" alt="LYSPI Logo" className="h-16 w-16 rounded-full ring-4 ring-blue-400/30 mx-auto" />
+                  <img src={logoSrc} alt="LYSPI Logo" className="h-16 w-16 rounded-full ring-4 ring-blue-400/30 mx-auto" />
                   <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-blue-400/30 to-emerald-500/30 blur-xl opacity-50"></div>
                 </div>
                 <h3 className="text-2xl font-extrabold text-white mt-3">LYSPI</h3>
